@@ -20,6 +20,7 @@ namespace UserManagement_Repositories
         Task<UserProfile> RegisterUserProfile(RegisterUserProfileDto userRegistration);
         Task<List<UserProfile>> getUserProfileById(int Id);
         Task<List<UserProfile>> getUsersProfileById();
+        Task<UserProfile> UpdateUserProfile(UpdateUserProfileDto updateUserProfile);
     }
 
     public class UserProfileRepository : IUserProfileRepository
@@ -58,7 +59,10 @@ namespace UserManagement_Repositories
 
         public async Task<List<UserProfile>> getUserProfileById(int Id)
         {
-            var userProfile = await _context.UserProfiles
+
+            try
+            {
+                 var userProfile = await _context.UserProfiles
                              .Include(x=>x.User)
                              .Where(x => x.Id == Id).ToListAsync();
 
@@ -69,12 +73,21 @@ namespace UserManagement_Repositories
             
 
             return userProfile;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the request.", ex);
+            }
         }
 
 
         public async Task<List<UserProfile>> getUsersProfileById()
         {
-            var userProfile = await _context.UserProfiles
+            
+            try
+            {
+               var userProfile = await _context.UserProfiles
                             .Include(x => x.User)
                             .ToListAsync();
 
@@ -85,6 +98,40 @@ namespace UserManagement_Repositories
 
 
             return userProfile;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the request.", ex);
+            }
+        }
+
+        public async Task<UserProfile> UpdateUserProfile(UpdateUserProfileDto updateUserProfile)
+        {
+ 
+            try
+            {
+                var updateProfile = await _context.UserProfiles
+                         .Include(x=>x.User)
+                         .Where(x => x.PersonalNumber.Contains(updateUserProfile.PersonalNumber))
+                         .FirstOrDefaultAsync();
+
+                if (updateProfile != null)
+                {
+                    updateProfile.FirstName = updateUserProfile.FirstName;
+                    updateProfile.LastName = updateUserProfile.LastName;
+                    updateProfile.PersonalNumber = updateUserProfile.PersonalNumber;
+                    updateProfile.UserId = updateUserProfile.UserId;
+                }
+                _context.UserProfiles.Update(updateProfile);
+                await _context.SaveChangesAsync();
+
+                return updateProfile;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the request.", ex);
+            }
         }
 
 

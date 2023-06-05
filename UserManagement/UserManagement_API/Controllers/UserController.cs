@@ -24,6 +24,7 @@ namespace UserManagement_API.Controllers
         public async Task<IActionResult> RegisterUserProfile([FromQuery] RegisterUserProfileDto registerUserProfile)
         {
             var register = await _userProfileRepository.RegisterUserProfile(registerUserProfile);
+
             if (register == null)
             {
                 return BadRequest();
@@ -50,6 +51,19 @@ namespace UserManagement_API.Controllers
             {
                 return NotFound("User Profile Cannot Found!");
             }
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserProfile([FromBody]UpdateUserProfileDto updateUserProfile)
+        {
+            var result =await _userProfileRepository.UpdateUserProfile(updateUserProfile);
+
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(result);
         }
 
