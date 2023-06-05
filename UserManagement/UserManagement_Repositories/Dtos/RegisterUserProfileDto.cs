@@ -9,11 +9,15 @@ namespace UserManagement_Repositories.Dtos
 {
     public class RegisterUserProfileDto
     {
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
 
-        [MinLength(11), MaxLength(11)]
+
+        [Required, MinLength(11), MaxLength(11)]
         [RegularExpression(@"^[0-9]+$")]
         public string PersonalNumber { get; set; }
         

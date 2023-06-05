@@ -10,10 +10,12 @@ namespace UserManagement_Repositories.Dtos
     public class UpdateUserProfileDto
     {
         public int UserId { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
 
-        [StringLength(10)]
+        [Required, MinLength(11), MaxLength(11)]
         [RegularExpression(@"^[0-9]+$")]
         public string? PersonalNumber { get; set; }
     }

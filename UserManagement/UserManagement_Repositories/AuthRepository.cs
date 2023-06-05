@@ -16,8 +16,8 @@ namespace UserManagement_Repositories
 {
     public interface IAuthRepository
     {
-        string GenerateTokenString(LoginUser user);
-        Task<bool> Login(LoginUser user);
+        string GenerateTokenString(LoginUserDto user);
+        Task<bool> Login(LoginUserDto user);
         Task<bool> Register(RegisterUserDto registerUser);
     }
     public class AuthRepository : IAuthRepository
@@ -52,14 +52,14 @@ namespace UserManagement_Repositories
                 
             };
             var result = await _userManager.CreateAsync(identityUser, registerUser.Password);
-            _context.Users.AddAsync(newUser);
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
             return result.Succeeded;
 
         }
 
-        public async Task<bool> Login(LoginUser user)
+        public async Task<bool> Login(LoginUserDto user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.UserName);
             if (identityUser is null)
@@ -70,7 +70,7 @@ namespace UserManagement_Repositories
             return await _userManager.CheckPasswordAsync(identityUser, user.Password);
         }
 
-        public string GenerateTokenString(LoginUser user)
+        public string GenerateTokenString(LoginUserDto user)
         {
             var claims = new List<Claim>
             {

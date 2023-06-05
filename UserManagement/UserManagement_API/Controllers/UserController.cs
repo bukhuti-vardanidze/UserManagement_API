@@ -9,7 +9,7 @@ namespace UserManagement_API.Controllers
 {
     [Route("api/")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
@@ -20,51 +20,80 @@ namespace UserManagement_API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("userprofiles")]
         public async Task<IActionResult> RegisterUserProfile([FromQuery] RegisterUserProfileDto registerUserProfile)
         {
-            var register = await _userProfileRepository.RegisterUserProfile(registerUserProfile);
-
-            if (register == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
-            return Ok(register);
+
+            var registeredProfile = await _userProfileRepository.RegisterUserProfile(registerUserProfile);
+
+            if (registeredProfile == null)
+            {
+                return BadRequest("Failed to register user profile.");
+            }
+
+            return Ok(registeredProfile);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetById(int ID)
+        [HttpGet("api/userprofiles/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _userProfileRepository.getUserProfileById(ID);
-            if (result == null)
+            var userProfile = await _userProfileRepository.getUserProfileById(id);
+
+            if (userProfile == null)
             {
-                return NotFound("User Profile Cannot Found!");
+                return NotFound("User Profile not found.");
             }
-            return Ok(result);
+
+            return Ok(userProfile);
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllUsetsProfile()
+        [HttpGet("userprofiles")]
+        public async Task<IActionResult> GetAllUsersProfile()
         {
-            var result = await _userProfileRepository.getUsersProfileById();
-            if (result == null)
+            var userProfiles = await _userProfileRepository.getUsersProfileById();
+
+            if (userProfiles == null || userProfiles.Count == 0)
             {
-                return NotFound("User Profile Cannot Found!");
+                return NotFound("No user profiles found.");
             }
-            return Ok(result);
+
+            return Ok(userProfiles);
         }
 
-        [HttpPut]
+        [HttpPut("userprofiles")]
         public async Task<IActionResult> UpdateUserProfile([FromBody]UpdateUserProfileDto updateUserProfile)
         {
-            var result =await _userProfileRepository.UpdateUserProfile(updateUserProfile);
-
-            if (result == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            return Ok(result);
+            var updatedProfile = await _userProfileRepository.UpdateUserProfile(updateUserProfile);
+
+            if (updatedProfile == null)
+            {
+                return BadRequest("Failed to update user profile.");
+            }
+
+            return Ok(updatedProfile);
+        }
+
+        [HttpDelete("userprofiles")]
+        public async Task<IActionResult> DeleteUserProfile(string PersonalNumber)
+        {
+
+            var deletedProfile = await _userProfileRepository.DeleteUserProfile(PersonalNumber);
+
+            if (deletedProfile == null)
+            {
+                return NotFound("User profile not found.");
+            }
+
+            return Ok(deletedProfile);
         }
 
     }

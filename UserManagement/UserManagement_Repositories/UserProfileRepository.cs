@@ -18,9 +18,10 @@ namespace UserManagement_Repositories
     public interface IUserProfileRepository
     {
         Task<UserProfile> RegisterUserProfile(RegisterUserProfileDto userRegistration);
-        Task<List<UserProfile>> getUserProfileById(int Id);
+        Task<List<UserProfile>> getUserProfileById(int ID);
         Task<List<UserProfile>> getUsersProfileById();
         Task<UserProfile> UpdateUserProfile(UpdateUserProfileDto updateUserProfile);
+        Task<UserProfile> DeleteUserProfile(string personalNumber);
     }
 
     public class UserProfileRepository : IUserProfileRepository
@@ -44,7 +45,7 @@ namespace UserManagement_Repositories
                     PersonalNumber = userRegistration.PersonalNumber
                 };
 
-                _context.UserProfiles.AddAsync(registerUserProfile);
+                _context.UserProfiles.Add(registerUserProfile);
                 await _context.SaveChangesAsync();
 
                 return registerUserProfile;
@@ -57,14 +58,14 @@ namespace UserManagement_Repositories
         }
 
 
-        public async Task<List<UserProfile>> getUserProfileById(int Id)
+        public async Task<List<UserProfile>> getUserProfileById(int ID)
         {
 
             try
             {
                  var userProfile = await _context.UserProfiles
                              .Include(x=>x.User)
-                             .Where(x => x.Id == Id).ToListAsync();
+                             .Where(x => x.Id == ID).ToListAsync();
 
             if(userProfile.Count == 0)
             {
@@ -134,6 +135,32 @@ namespace UserManagement_Repositories
             }
         }
 
+
+        public async Task<UserProfile> DeleteUserProfile(string personalNumber)
+        {
+            try 
+            {
+                var deleteUserProfile = await _context.UserProfiles
+                    .Include(x=>x.User)
+                    .Where(x=>x.PersonalNumber == personalNumber)
+                    .FirstOrDefaultAsync();
+
+                if(deleteUserProfile == null)
+                {
+                    throw new Exception("User Profile Not Found!");   
+                }
+
+                _context.UserProfiles.Remove(deleteUserProfile);
+                await _context.SaveChangesAsync();
+
+
+                return deleteUserProfile;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing the request.", ex);
+             }
+        }
 
     }
 

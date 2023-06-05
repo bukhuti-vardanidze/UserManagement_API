@@ -20,16 +20,14 @@ namespace UserManagement_DB.Models
     {
         [Key]
         public int Id { get; set; }
-
-        //[Required]
-        //public string Id { get; set; }
+        [Required]
         public  string UserName { get; set; }
+        [Required]
         public  string Email { get; set; }
+        [Required]
         public  string Password { get; set; }
+        [Required]
         public  IsActive IsActive { get; set; }
-
-        //[ForeignKey("Id")]
-        //public virtual IdentityUser IdentityUser { get; set; }
         public UserProfile Profile { get; set; }
     }
 }

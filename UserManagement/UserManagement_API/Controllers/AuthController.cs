@@ -20,7 +20,7 @@ namespace UserManagement_API.Controllers
 
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromQuery] LoginUser user)
+        public async Task<IActionResult> Login([FromQuery] LoginUserDto user)
         {
             if (!ModelState.IsValid)
             {
