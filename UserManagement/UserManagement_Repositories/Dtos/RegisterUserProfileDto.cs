@@ -13,7 +13,7 @@ namespace UserManagement_Repositories.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [StringLength(10)]
+        [MinLength(11), MaxLength(11)]
         [RegularExpression(@"^[0-9]+$")]
         public string PersonalNumber { get; set; }
         

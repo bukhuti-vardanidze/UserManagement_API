@@ -9,7 +9,7 @@ namespace UserManagement_API.Controllers
 {
     [Route("api/")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
@@ -24,11 +24,34 @@ namespace UserManagement_API.Controllers
         public async Task<IActionResult> RegisterUserProfile([FromQuery] RegisterUserProfileDto registerUserProfile)
         {
             var register = await _userProfileRepository.RegisterUserProfile(registerUserProfile);
-            if(register == null)
+            if (register == null)
             {
                 return BadRequest();
             }
             return Ok(register);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetById(int ID)
+        {
+            var result = await _userProfileRepository.getUserProfileById(ID);
+            if (result == null)
+            {
+                return NotFound("User Profile Cannot Found!");
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsetsProfile()
+        {
+            var result = await _userProfileRepository.getUsersProfileById();
+            if (result == null)
+            {
+                return NotFound("User Profile Cannot Found!");
+            }
+            return Ok(result);
+        }
+
     }
 }
