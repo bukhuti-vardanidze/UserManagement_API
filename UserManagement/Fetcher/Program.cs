@@ -9,11 +9,14 @@ using Microsoft.Data.SqlClient;
 
 namespace Fetcher
 {
-
-    public class PostFetcher
+    public class Program
     {
+        static async Task Main(string[] args)
+        {
+            await AddPostDataInDb();
+        }
 
-        public async Task AddPostDataInDb()
+        public static async Task AddPostDataInDb()
         {
 
             HttpClient client = new()
@@ -60,4 +63,6 @@ namespace Fetcher
 
         }
     }
+
+ 
 }
