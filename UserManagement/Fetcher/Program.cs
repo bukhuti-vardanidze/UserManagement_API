@@ -13,10 +13,11 @@ namespace Fetcher
     {
         static async Task Main(string[] args)
         {
-            //  await AddPostDataInDb();
-            // await AddAlbumsDataInDb();
-            //await AddCommentsDataInDb();
+            await AddPostDataInDb();
+            await AddAlbumsDataInDb();
+            await AddCommentsDataInDb();
             await AddPhotosDataInDb();
+            await AddTodosDataInDb();
 
 
         }
@@ -181,6 +182,40 @@ namespace Fetcher
                         command.Parameters.AddWithValue("@url", photo.url);
                         command.Parameters.AddWithValue("@thumbnailUrl", photo.thumbnailUrl);
 
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public static async Task AddTodosDataInDb()
+        {
+            HttpClient client = new()
+            {
+                BaseAddress = new Uri("https://jsonplaceholder.typicode.com/")
+            };
+
+            var response = await client.GetAsync("todos");
+            var content = await response.Content.ReadAsStringAsync();
+
+            List<ToDo> todos = JsonConvert.DeserializeObject<List<ToDo>>(content);
+
+            string connectionString = "Server=localhost;Database=UserManagement_Db;Integrated security=true;Trusted_connection=true;TrustServerCertificate=true;MultipleActiveResultSets=true; Encrypt=false";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                foreach (var todo in todos)
+                {
+                    string query = "INSERT INTO ToDoData (userId, id, title, completed) VALUES (@userId, @id, @title, @completed)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@userId", todo.userId);
+                        command.Parameters.AddWithValue("@id", todo.id);
+                        command.Parameters.AddWithValue("@title", todo.title);
+                        command.Parameters.AddWithValue("@completed", todo.completed);
                         command.ExecuteNonQuery();
                     }
                 }
