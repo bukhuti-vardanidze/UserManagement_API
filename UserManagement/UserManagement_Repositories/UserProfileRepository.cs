@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using UserManagement_DB;
 using UserManagement_DB.Models;
 using UserManagement_Repositories.Dtos;
-using UserManagement_Repositories.Exceptions;
+
 
 namespace UserManagement_Repositories
 {

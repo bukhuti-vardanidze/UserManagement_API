@@ -18,7 +18,7 @@ namespace UserManagement_Repositories
     {
         string GenerateTokenString(LoginUserDto user);
         Task<bool> Login(LoginUserDto user);
-        Task<bool> Register(RegisterUserDto registerUser);
+        Task<User> Register(RegisterUserDto registerUser);
     }
     public class AuthRepository : IAuthRepository
     {
@@ -35,7 +35,7 @@ namespace UserManagement_Repositories
 
        
 
-        public async Task<bool> Register(RegisterUserDto registerUser)
+        public async Task<User> Register(RegisterUserDto registerUser)
         {
             var identityUser = new IdentityUser
             {
@@ -55,7 +55,7 @@ namespace UserManagement_Repositories
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            return result.Succeeded;
+            return newUser;
 
         }
 

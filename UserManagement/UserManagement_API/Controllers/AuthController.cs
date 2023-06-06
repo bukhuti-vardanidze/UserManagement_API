@@ -19,7 +19,7 @@ namespace UserManagement_API.Controllers
         }
 
 
-        [HttpPost("Login")]
+        [HttpGet("Login")]
         public async Task<IActionResult> Login([FromQuery] LoginUserDto user)
         {
             if (!ModelState.IsValid)
@@ -38,11 +38,14 @@ namespace UserManagement_API.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUseeeer([FromQuery] RegisterUserDto user)
         {
-            if (await _authRepository.Register(user))
+            var RegisterUser = await _authRepository.Register(user);
+
+            if (RegisterUser == null)
             {
-                return Ok("Successfuly done");
+                return BadRequest("Something went worng");
             }
-            return BadRequest("Something went worng");
+            return Ok(RegisterUser);
+            
         }
     }
 }

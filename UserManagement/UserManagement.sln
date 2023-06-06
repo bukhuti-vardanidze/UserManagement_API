@@ -9,12 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement_DB", "UserMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement_Repositories", "UserManagement_Repositories\UserManagement_Repositories.csproj", "{5C42113E-BF18-4BAC-87FE-CDB88F3EED3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fetcher", "Fetcher\Fetcher.csproj", "{3853D89B-03F2-41AE-8196-92818C564B85}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_Query", "SQL_Query", "{96521391-5577-464B-9953-C91ED8272F00}"
 	ProjectSection(SolutionItems) = preProject
 		UserManagement_Query.sql = UserManagement_Query.sql
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fetcher", "Fetcher\Fetcher.csproj", "{53397E36-B4C3-4008-9B55-5FC482B44976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +34,10 @@ Global
 		{5C42113E-BF18-4BAC-87FE-CDB88F3EED3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C42113E-BF18-4BAC-87FE-CDB88F3EED3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C42113E-BF18-4BAC-87FE-CDB88F3EED3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3853D89B-03F2-41AE-8196-92818C564B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3853D89B-03F2-41AE-8196-92818C564B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3853D89B-03F2-41AE-8196-92818C564B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3853D89B-03F2-41AE-8196-92818C564B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53397E36-B4C3-4008-9B55-5FC482B44976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53397E36-B4C3-4008-9B55-5FC482B44976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53397E36-B4C3-4008-9B55-5FC482B44976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53397E36-B4C3-4008-9B55-5FC482B44976}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
