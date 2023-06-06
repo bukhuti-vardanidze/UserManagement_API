@@ -13,55 +13,103 @@ namespace Fetcher
     {
         static async Task Main(string[] args)
         {
-            await AddPostDataInDb();
+            //  await AddPostDataInDb();
+            await AddAlbumsDataInDb();
         }
 
-        public static async Task AddPostDataInDb()
-        {
+        //public static async Task AddPostDataInDb()
+        //{
 
+        //    HttpClient client = new()
+        //    {
+        //        BaseAddress = new Uri("https://jsonplaceholder.typicode.com/")
+        //    };
+
+        //    var response = await client.GetAsync("posts");
+        //    var content = await response.Content.ReadAsStringAsync();
+
+        //    List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+
+        //    foreach (var post in posts)
+        //    {
+
+        //        var fetchedPostData = $"User ID: {post.userId}, ID: {post.id},Title: {post.title}, Body: {post.body})";
+
+        //        Console.WriteLine(fetchedPostData);
+        //    }
+
+        //    string connectionString = "Server=localhost;Database=UserManagement_Db;Integrated security=true;Trusted_connection=true;TrustServerCertificate=true;MultipleActiveResultSets=true; Encrypt=false"; // Replace with your actual connection string
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        foreach (var post in posts)
+        //        {
+        //            string query = "INSERT INTO PostData (userId, id, title, body) VALUES (@userId, @id, @title, @body)";
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@userId", post.userId);
+        //                command.Parameters.AddWithValue("@id", post.id);
+        //                command.Parameters.AddWithValue("@title", post.title);
+        //                command.Parameters.AddWithValue("@body", post.body);
+        //                command.ExecuteNonQuery();
+        //            }
+        //        }
+        //    }
+
+
+
+        //}
+
+        public static async Task AddAlbumsDataInDb()
+        {
             HttpClient client = new()
             {
                 BaseAddress = new Uri("https://jsonplaceholder.typicode.com/")
             };
 
-            var response = await client.GetAsync("posts");
+            var response = await client.GetAsync("albums");
             var content = await response.Content.ReadAsStringAsync();
 
-            List<Post> posts = JsonConvert.DeserializeObject<List<Post>>(content);
+            List<Album> albums = JsonConvert.DeserializeObject<List<Album>>(content);
 
-
-            foreach (var post in posts)
+            foreach (var album in albums)
             {
 
-                var fetchedPostData = $"User ID: {post.userId}, ID: {post.id},Title: {post.title}, Body: {post.body})";
+                var fetchedPostData = $"User ID: {album.userId}, ID: {album.id},Title: {album.title})";
 
                 Console.WriteLine(fetchedPostData);
             }
 
-            string connectionString = "Server=localhost;Database=UserManagement_Db;Integrated security=true;Trusted_connection=true;TrustServerCertificate=true;MultipleActiveResultSets=true; Encrypt=false"; // Replace with your actual connection string
+
+                string connectionString = "Server=localhost;Database=UserManagement_Db;Integrated security=true;Trusted_connection=true;TrustServerCertificate=true;MultipleActiveResultSets=true; Encrypt=false"; // Replace with your actual connection string
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                foreach (var post in posts)
+                foreach (var album in albums)
                 {
-                    string query = "INSERT INTO PostData (userId, id, title, body) VALUES (@userId, @id, @title, @body)";
+                    string query = "INSERT INTO AlbumData (userId, id, title) VALUES (@userId, @id, @title)";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@userId", post.userId);
-                        command.Parameters.AddWithValue("@id", post.id);
-                        command.Parameters.AddWithValue("@title", post.title);
-                        command.Parameters.AddWithValue("@body", post.body);
+                        command.Parameters.AddWithValue("@userId", album.userId);
+                        command.Parameters.AddWithValue("@id", album.id);
+                        command.Parameters.AddWithValue("@title", album.title);
+                       
                         command.ExecuteNonQuery();
                     }
                 }
             }
 
 
-
         }
+
+
     }
 
  
