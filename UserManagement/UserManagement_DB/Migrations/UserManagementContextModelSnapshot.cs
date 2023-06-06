@@ -266,8 +266,8 @@ namespace UserManagement_DB.Migrations
 
                     b.Property<string>("PersonalNumber")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

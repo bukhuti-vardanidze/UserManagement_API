@@ -45,6 +45,13 @@ namespace UserManagement_Repositories
                     PersonalNumber = userRegistration.PersonalNumber
                 };
 
+                var findPersonalNumbInDb =await _context.UserProfiles.AnyAsync(x=>x.PersonalNumber == userRegistration.PersonalNumber);
+
+                if(findPersonalNumbInDb == true)
+                {
+                    return null;
+                }
+
                 _context.UserProfiles.Add(registerUserProfile);
                 await _context.SaveChangesAsync();
 
@@ -69,7 +76,7 @@ namespace UserManagement_Repositories
 
             if(userProfile.Count == 0)
             {
-                throw new MyExceptions("User Profile Cannot Found");
+                    return null;
             }
             
 
@@ -94,9 +101,8 @@ namespace UserManagement_Repositories
 
             if (userProfile.Count == 0)
             {
-                throw new MyExceptions("Users Profile Cannot Found");
+                return null;
             }
-
 
             return userProfile;
 
@@ -147,12 +153,11 @@ namespace UserManagement_Repositories
 
                 if(deleteUserProfile == null)
                 {
-                    throw new Exception("User Profile Not Found!");   
+                    return null;  
                 }
 
                 _context.UserProfiles.Remove(deleteUserProfile);
                 await _context.SaveChangesAsync();
-
 
                 return deleteUserProfile;
             }

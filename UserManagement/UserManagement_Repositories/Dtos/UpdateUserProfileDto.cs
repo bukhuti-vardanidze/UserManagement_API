@@ -17,6 +17,6 @@ namespace UserManagement_Repositories.Dtos
 
         [Required, MinLength(11), MaxLength(11)]
         [RegularExpression(@"^[0-9]+$")]
-        public string? PersonalNumber { get; set; }
+        public string PersonalNumber { get; set; }
     }
 }

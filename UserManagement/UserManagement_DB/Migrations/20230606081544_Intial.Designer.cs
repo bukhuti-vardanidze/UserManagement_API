@@ -12,8 +12,8 @@ using UserManagement_DB;
 namespace UserManagement_DB.Migrations
 {
     [DbContext(typeof(UserManagementContext))]
-    [Migration("20230605165202_Initial")]
-    partial class Initial
+    [Migration("20230606081544_Intial")]
+    partial class Intial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,8 +269,8 @@ namespace UserManagement_DB.Migrations
 
                     b.Property<string>("PersonalNumber")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

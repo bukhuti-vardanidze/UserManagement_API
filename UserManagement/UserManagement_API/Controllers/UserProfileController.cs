@@ -7,20 +7,20 @@ using UserManagement_Repositories.Dtos;
 
 namespace UserManagement_API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
 
-        public UserController(IUserProfileRepository userProfileRepository)
+        public UserProfileController(IUserProfileRepository userProfileRepository)
         {
             _userProfileRepository = userProfileRepository;
         }
 
 
-        [HttpPost("userprofiles")]
+        [HttpPost]
         public async Task<IActionResult> RegisterUserProfile([FromQuery] RegisterUserProfileDto registerUserProfile)
         {
             if (!ModelState.IsValid)
@@ -32,26 +32,27 @@ namespace UserManagement_API.Controllers
 
             if (registeredProfile == null)
             {
+                
                 return BadRequest("Failed to register user profile.");
             }
 
             return Ok(registeredProfile);
         }
 
-        [HttpGet("api/userprofiles/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var userProfile = await _userProfileRepository.getUserProfileById(id);
-
+            
             if (userProfile == null)
             {
-                return NotFound("User Profile not found.");
+                return NotFound($"User Profile with Id: {id} not found.");
             }
 
             return Ok(userProfile);
         }
 
-        [HttpGet("userprofiles")]
+        [HttpGet]
         public async Task<IActionResult> GetAllUsersProfile()
         {
             var userProfiles = await _userProfileRepository.getUsersProfileById();
@@ -64,7 +65,7 @@ namespace UserManagement_API.Controllers
             return Ok(userProfiles);
         }
 
-        [HttpPut("userprofiles")]
+        [HttpPut]
         public async Task<IActionResult> UpdateUserProfile([FromBody]UpdateUserProfileDto updateUserProfile)
         {
             if (!ModelState.IsValid)
@@ -82,15 +83,15 @@ namespace UserManagement_API.Controllers
             return Ok(updatedProfile);
         }
 
-        [HttpDelete("userprofiles")]
-        public async Task<IActionResult> DeleteUserProfile(string PersonalNumber)
+        [HttpDelete("personalnumber")]
+        public async Task<IActionResult> DeleteUserProfile(string personalnumber)
         {
 
-            var deletedProfile = await _userProfileRepository.DeleteUserProfile(PersonalNumber);
+            var deletedProfile = await _userProfileRepository.DeleteUserProfile(personalnumber);
 
             if (deletedProfile == null)
             {
-                return NotFound("User profile not found.");
+                return NotFound("User profile not found OR already Removed.");
             }
 
             return Ok(deletedProfile);
